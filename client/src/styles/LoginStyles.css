@@ -1,5 +1,5 @@
-/* RegisterStyles.css */
-.register-container {
+/* LoginStyles.css */
+.login-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,7 +11,7 @@
   ); /* Adjust gradient colors */
 }
 
-.register-form {
+.login-form {
   width: 350px;
   padding: 30px;
   background-color: #fff; /* Form background color */
@@ -19,19 +19,19 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.register-title {
+.login-title {
   text-align: center;
   margin-bottom: 30px;
   color: #333; /* Title color */
 }
 
-.login-link {
+.register-link {
   display: block;
   margin-top: 20px;
   color: #888; /* Link color */
 }
 
-.register-button {
+.login-button {
   width: 100%;
   margin-top: 20px;
   padding: 10px 0;
@@ -43,10 +43,11 @@
   cursor: pointer;
 }
 
-.register-button:hover {
+.login-button:hover {
   background-color: #40a9ff; /* Hover state color */
 }
 
+/* LoginStyles.css */
 .brand-link {
   position: absolute;
   top: 20px;

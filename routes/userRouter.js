@@ -31,7 +31,7 @@ routes.post(
   authMiddlewire,
   allnotificationController
 );
-routes.get("/getAllDocData", authMiddlewire, getAllDoctorCtrl);
+routes.get("/getAllDoctors", authMiddlewire, getAllDoctorCtrl);
 //notification||POST
 routes.post(
   "/delete-notification-route",

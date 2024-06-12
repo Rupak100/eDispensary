@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -14,8 +15,12 @@ import Profile from "./pages/doctor/Profile";
 import BookingPage from "./pages/BookingPage";
 import Appointments from "./pages/Appointments";
 import DoctorAppointments from "./pages/doctor/DoctorAppointments";
+import Dashboard from "./components/Dashboard"; // Import the Dashboard component
+import "@fortawesome/fontawesome-free/css/all.css";
+
 function App() {
   const { loading } = useSelector((state) => state.alerts);
+
   return (
     <>
       <BrowserRouter>
@@ -103,6 +108,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route
               path="/"
               element={
@@ -111,6 +117,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            {/* <Route path="/" element={<Navigate to="/dashboard" />} /> */}
           </Routes>
         )}
       </BrowserRouter>

@@ -10,7 +10,6 @@ export default function ProtectedRoute({ children }) {
   const { user } = useSelector((state) => state.user);
 
   //get user
-  //eslint-disable-next-line
   const getUser = async () => {
     try {
       dispatch(showLoading());
@@ -28,7 +27,7 @@ export default function ProtectedRoute({ children }) {
         dispatch(setUser(res.data.data));
       } else {
         localStorage.clear();
-        <Navigate to="/login" />;
+        <Navigate to="/dashboard" />;
       }
     } catch (error) {
       localStorage.clear();
@@ -46,6 +45,6 @@ export default function ProtectedRoute({ children }) {
   if (localStorage.getItem("token")) {
     return children;
   } else {
-    return <Navigate to="/login" />;
+    return <Navigate to="/dashboard" />;
   }
 }

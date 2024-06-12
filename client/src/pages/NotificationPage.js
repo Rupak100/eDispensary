@@ -10,12 +10,13 @@ const NotificationPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.user);
-  //   handle read notification
+
+  // handle read notification
   const handleMarkAllRead = async () => {
     try {
       dispatch(showLoading());
       const res = await axios.post(
-        "/api/v1/user/get-all-notification",
+        "/api/v1/user/all-notification-route",
         {
           userId: user._id,
         },
@@ -34,7 +35,7 @@ const NotificationPage = () => {
     } catch (error) {
       dispatch(hideLoading());
       console.log(error);
-      message.error("somthing went wrong");
+      message.error("Something went wrong");
     }
   };
 
@@ -43,7 +44,7 @@ const NotificationPage = () => {
     try {
       dispatch(showLoading());
       const res = await axios.post(
-        "/api/v1/user/delete-all-notification",
+        "/api/v1/user/delete-notification-route",
         { userId: user._id },
         {
           headers: {
@@ -60,9 +61,10 @@ const NotificationPage = () => {
     } catch (error) {
       dispatch(hideLoading());
       console.log(error);
-      message.error("Somthing Went Wrong In Ntifications");
+      message.error("Something Went Wrong In Notifications");
     }
   };
+
   return (
     <Layout>
       <h4 className="p-3 text-center">Notification Page</h4>
@@ -73,16 +75,22 @@ const NotificationPage = () => {
               Mark All Read
             </h4>
           </div>
-          {user?.notifcation.map((notificationMgs) => (
-            <div className="card" style={{ cursor: "pointer" }}>
+          {user &&
+            user.notification &&
+            user.notification.map((notificationMgs) => (
               <div
-                className="card-text"
-                onClick={() => navigate(notificationMgs.onClickPath)}
+                key={notificationMgs.id}
+                className="card"
+                style={{ cursor: "pointer" }}
               >
-                {notificationMgs.message}
+                <div
+                  className="card-text"
+                  onClick={() => navigate(notificationMgs.onClickPath)}
+                >
+                  {notificationMgs.message}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
         </Tabs.TabPane>
         <Tabs.TabPane tab="Read" key={1}>
           <div className="d-flex justify-content-end">
@@ -94,16 +102,22 @@ const NotificationPage = () => {
               Delete All Read
             </h4>
           </div>
-          {user?.seennotification.map((notificationMgs) => (
-            <div className="card" style={{ cursor: "pointer" }}>
+          {user &&
+            user.seennotification &&
+            user.seennotification.map((notificationMgs) => (
               <div
-                className="card-text"
-                onClick={() => navigate(notificationMgs.onClickPath)}
+                key={notificationMgs.id}
+                className="card"
+                style={{ cursor: "pointer" }}
               >
-                {notificationMgs.message}
+                <div
+                  className="card-text"
+                  onClick={() => navigate(notificationMgs.onClickPath)}
+                >
+                  {notificationMgs.message}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
         </Tabs.TabPane>
       </Tabs>
     </Layout>

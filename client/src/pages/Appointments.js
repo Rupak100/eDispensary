@@ -9,7 +9,7 @@ const Appointments = () => {
 
   const getAppointments = async () => {
     try {
-      const res = await axios.get("/api/v1/user/user-appointments", {
+      const res = await axios.get("/api/v1/user/get-appointment", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
