@@ -1,0 +1,59 @@
+/* RegisterStyles.css */
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(
+    to bottom right,
+    #4b4e6d,
+    #2b2e4a
+  ); /* Adjust gradient colors */
+}
+
+.register-form {
+  width: 350px;
+  padding: 30px;
+  background-color: #fff; /* Form background color */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.register-title {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333; /* Title color */
+}
+
+.login-link {
+  display: block;
+  margin-top: 20px;
+  color: #888; /* Link color */
+}
+
+.register-button {
+  width: 100%;
+  margin-top: 20px;
+  padding: 10px 0;
+  border: none;
+  border-radius: 4px;
+  background-color: #1890ff; /* Button background color */
+  color: #fff; /* Button text color */
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.register-button:hover {
+  background-color: #40a9ff; /* Hover state color */
+}
+
+.brand-link {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  color: #fff; /* Link color */
+  text-decoration: none;
+  font-size: 24px;
+  font-weight: bold;
+  z-index: 1;
+}
