@@ -1,35 +1,41 @@
-
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import "../styles/DoctorList.css";
 
 const DoctorList = ({ doctor }) => {
-  const navigate = useNavigate();
   return (
-    <>
-      <div
-        className="card m-2"
-        style={{ cursor: "pointer" }}
-        onClick={() => navigate(`/doctor/book-appointment/${doctor._id}`)}
-      >
-        <div className="card-header">
-          Dr. {doctor.firstName} {doctor.lastName}
-        </div>
-        <div className="card-body">
-          <p>
-            <b>Specialization</b> {doctor.specialization}
-          </p>
-          <p>
-            <b>Experience</b> {doctor.experience}
-          </p>
-          <p>
-            <b>Fees Per Cunsaltation</b> {doctor.feesPerCunsaltation}
-          </p>
-          <p>
-            <b>Timings</b> {doctor.timings[0]} - {doctor.timings[1]}
-          </p>
-        </div>
+    <div className="doctor-card">
+      <div className="doctor-name">
+        Dr. {doctor.firstName} {doctor.lastName}
       </div>
-    </>
+      <div className="doctor-details">
+        <p>
+          <span className="detail-title">Specialization:</span>{" "}
+          {doctor.specialization}
+        </p>
+        <p>
+          <span className="detail-title">Experience:</span> {doctor.experience}{" "}
+          years
+        </p>
+        <p>
+          <span className="detail-title">Fees Per Consultation:</span> $
+          {doctor.feesperConsultation}
+        </p>
+        <p>
+          <span className="detail-title">Timings:</span> {doctor.timings[0]} -{" "}
+          {doctor.timings[1]}
+        </p>
+      </div>
+      {/* Book Now button */}
+      <button className="book-now-button btn btn-primary mt-2">
+        <Link
+          to={`/doctor/book-appointment/${doctor._id}`}
+          className="btn-text"
+        >
+          Book Now
+        </Link>
+      </button>
+    </div>
   );
 };
 

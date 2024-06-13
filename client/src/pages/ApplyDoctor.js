@@ -131,7 +131,7 @@ const ApplyDoctor = () => {
           <Col xs={24} md={24} lg={8}>
             <Form.Item
               label="Fees Per Cunsaltation"
-              name="feesPerCunsaltation"
+              name="feesperCunsaltation"
               required
               rules={[{ required: true }]}
             >

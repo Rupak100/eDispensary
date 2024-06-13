@@ -14,6 +14,7 @@ const appointSchema = new mongoose.Schema(
     doctorInfo: {
       firstName: { type: String, required: true },
       lastName: { type: String, required: true },
+      phone: { type: Number, required: true },
       specialization: { type: String, required: true },
       feesperConsultation: { type: Number, required: true },
       timings: { type: [String], required: true },

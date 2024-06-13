@@ -1,71 +1,57 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { DatePicker, message, TimePicker } from "antd";
+import { Button, DatePicker, TimePicker, message } from "antd";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { showLoading, hideLoading } from "../redux/features/alertSlice";
-
-const BookingPage = () => {
+import "../styles/DoctorList.css";
+const BookAppointment = () => {
   const { user } = useSelector((state) => state.user);
+  const [doctors, setDoctor] = useState(null);
   const params = useParams();
-  const [doctors, setDoctors] = useState([]);
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState();
-  const [isAvailable, setIsAvailable] = useState(false);
+  const [date, setDate] = useState(null);
+  const [time, setTime] = useState(null);
+  const [available, setIsAvailable] = useState(false);
   const dispatch = useDispatch();
-  // login user data
-  const getUserData = async () => {
-    try {
-      const res = await axios.post(
-        "/api/v1/doctor/doctorInfo",
-        { doctorId: params.doctorId },
-        {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        }
-      );
-      if (res.data.success) {
-        setDoctors(res.data.data);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  // ============ handle availiblity
+
   const handleAvailability = async () => {
+    const token = localStorage.getItem("token");
     try {
-      dispatch(showLoading());
+      // dispatch(showLoading());
       const res = await axios.post(
         "/api/v1/user/check-availability",
-        { doctorId: params.doctorId, date, time },
+        {
+          doctorId: params.doctorId,
+          date,
+          time,
+        },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
-      dispatch(hideLoading());
+      // dispatch(hideLoading());
       if (res.data.success) {
         setIsAvailable(true);
-        console.log(isAvailable);
         message.success(res.data.message);
       } else {
         message.error(res.data.message);
       }
     } catch (error) {
       dispatch(hideLoading());
-      console.log(error);
+      message.error("Error checking availability");
+      console.error("Error checking availability:", error);
     }
   };
-  // =============== booking func
+
   const handleBooking = async () => {
+    const token = localStorage.getItem("token");
     try {
-      setIsAvailable(true);
-      if (!date && !time) {
-        return alert("Date & Time Required");
+      if (!date || !time) {
+        return alert("Date and Time are required");
       }
       dispatch(showLoading());
       const res = await axios.post(
@@ -75,71 +61,108 @@ const BookingPage = () => {
           userId: user._id,
           doctorInfo: doctors,
           userInfo: user,
-          date: date,
-          time: time,
+          date,
+          time,
         },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
       dispatch(hideLoading());
       if (res.data.success) {
         message.success(res.data.message);
+      } else {
+        message.error(res.data.message);
       }
     } catch (error) {
+      message.error("Error in Booking Appointment");
       dispatch(hideLoading());
-      console.log(error);
+      console.error("Error booking appointment:", error);
+    } finally {
+      setIsAvailable((available) => !available);
+    }
+  };
+
+  const getDoctorData = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await axios.post(
+        "/api/v1/doctor/doctorInfo",
+        { doctorId: params.doctorId },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (res.data.success) {
+        setDoctor(res.data.data);
+      } else {
+        console.error("Failed to fetch doctor data");
+      }
+    } catch (error) {
+      console.error("Error fetching doctor data:", error);
     }
   };
 
   useEffect(() => {
-    getUserData();
-    //eslint-disable-next-line
+    getDoctorData();
   }, []);
+
   return (
     <Layout>
-      <h3>Booking Page</h3>
-      <div className="container m-2">
+      <h1 className="text-center" style={{ color: "white", fontWeight: "700" }}>
+        Booking Page
+      </h1>
+      <div className="container m-2" style={{ padding: "70px" }}>
         {doctors && (
-          <div>
-            <h4>
-              Dr.{doctors.firstName} {doctors.lastName}
-            </h4>
-            <h4>Fees : {doctors.feesPerCunsaltation}</h4>
-            <h4>
-              Timings : {doctors.timings && doctors.timings[0]} -{" "}
-              {doctors.timings && doctors.timings[1]}{" "}
-            </h4>
+          <div className="d-flex justify-content-around align-items-center">
+            <div className="doctor-card">
+              <h5>
+                Dr.{doctors.firstName} {doctors.lastName}
+              </h5>
+              <h5>Specialization : {doctors.specialization} years</h5>
+              <h5>Fees : $ {doctors.feesperConsultation}</h5>
+              <h5>
+                Timings : {doctors.timings && doctors.timings[0]} -{" "}
+                {doctors.timings && doctors.timings[1]}{" "}
+              </h5>
+            </div>
             <div className="d-flex flex-column w-50">
               <DatePicker
-                aria-required={"true"}
-                className="m-2"
                 format="DD-MM-YYYY"
+                className="m-2 border border-primary"
                 onChange={(value) => {
-                  setDate(moment(value).format("DD-MM-YYYY"));
+                  const formattedDate = value
+                    ? value.format("DD-MM-YYYY")
+                    : null;
+                  setDate(formattedDate);
                 }}
               />
               <TimePicker
-                aria-required={"true"}
                 format="HH:mm"
-                className="mt-3"
+                className="m-2 border border-info"
                 onChange={(value) => {
-                  setTime(moment(value).format("HH:mm"));
+                  const formattedTime = value ? value.format("HH:mm") : null;
+                  setTime(formattedTime);
                 }}
               />
-
-              <button
-                className="btn btn-primary mt-2"
+              <Button
+                className="btn btn-primary m-2"
                 onClick={handleAvailability}
               >
                 Check Availability
-              </button>
-
-              <button className="btn btn-dark mt-2" onClick={handleBooking}>
-                Book Now
-              </button>
+              </Button>
+              {available && (
+                <Button
+                  className="btn btn-secondary m-2"
+                  onClick={handleBooking}
+                >
+                  Book Now
+                </Button>
+              )}
             </div>
           </div>
         )}
@@ -148,4 +171,4 @@ const BookingPage = () => {
   );
 };
 
-export default BookingPage;
+export default BookAppointment;

@@ -30,7 +30,15 @@ const HomePage = () => {
   }, []);
   return (
     <Layout>
-      <h1 className="text-center">Home Page</h1>
+      <h1
+        className="text-center"
+        style={{
+          color: "white",
+          fontWeight: "700",
+        }}
+      >
+        Our Doctors
+      </h1>
       <Row>
         {doctors && doctors.map((doctor) => <DoctorList doctor={doctor} />)}
       </Row>
