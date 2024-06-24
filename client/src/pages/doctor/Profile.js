@@ -19,7 +19,7 @@ const Profile = () => {
     try {
       dispatch(showLoading());
       const res = await axios.post(
-        "/api/v1/doctor/updateProfile",
+        "/api/v1/doctor/docInfoChange",
         {
           ...values,
           userId: user._id,
@@ -75,7 +75,7 @@ const Profile = () => {
   }, []);
   return (
     <Layout>
-      <h1>Manage Profile</h1>
+      <h1 className="text-center">Manage Profile</h1>
       {doctor && (
         <Form
           layout="vertical"
@@ -176,7 +176,7 @@ const Profile = () => {
                 required
                 rules={[{ required: true }]}
               >
-                <Input type="text" placeholder="your contact no" />
+                <Input type="text" placeholder="your Fees per consultation.." />
               </Form.Item>
             </Col>
             <Col xs={24} md={24} lg={8}>
@@ -184,8 +184,8 @@ const Profile = () => {
                 <TimePicker.RangePicker format="HH:mm" />
               </Form.Item>
             </Col>
-            <Col xs={24} md={24} lg={8}></Col>
-            <Col xs={24} md={24} lg={8}>
+            {/* <Col xs={24} md={24} lg={8}></Col> */}
+            <Col xs={24} md={24} lg={24} className="text-center mt-3">
               <button className="btn btn-primary form-btn" type="submit">
                 Update
               </button>

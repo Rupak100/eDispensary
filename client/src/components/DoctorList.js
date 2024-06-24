@@ -27,7 +27,7 @@ const DoctorList = ({ doctor }) => {
         </p>
       </div>
       {/* Book Now button */}
-      <button className="book-now-button btn btn-primary mt-2">
+      <button className=" auth-button book-now-button btn btn-primary mt-2">
         <Link
           to={`/doctor/book-appointment/${doctor._id}`}
           className="btn-text"

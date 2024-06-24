@@ -17,6 +17,7 @@ import Appointments from "./pages/Appointments";
 import DoctorAppointments from "./pages/doctor/DoctorAppointments";
 import Dashboard from "./components/Dashboard"; // Import the Dashboard component
 import "@fortawesome/fontawesome-free/css/all.css";
+import PaymentPage from "./components/PaymentPage";
 
 function App() {
   const { loading } = useSelector((state) => state.alerts);
@@ -117,6 +118,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route path="/payment/:id" element={<PaymentPage />} />
             {/* <Route path="/" element={<Navigate to="/dashboard" />} /> */}
           </Routes>
         )}

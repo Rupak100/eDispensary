@@ -5,7 +5,7 @@ import axios from "axios";
 
 import moment from "moment";
 import { message, Table, Popconfirm } from "antd";
-
+import "../../styles/Appointments.css";
 const DoctorAppointments = () => {
   const [appointments, setAppointments] = useState([]);
 
@@ -122,8 +122,14 @@ const DoctorAppointments = () => {
 
   return (
     <Layout>
-      <h1>Appointments List</h1>
-      <Table columns={columns} dataSource={appointments} />
+      <div className="appointments-container">
+        <h1 className="appointments-heading">Appointment List</h1>
+        <Table
+          columns={columns}
+          dataSource={appointments}
+          pagination={{ pageSize: 5 }}
+        />
+      </div>
     </Layout>
   );
 };

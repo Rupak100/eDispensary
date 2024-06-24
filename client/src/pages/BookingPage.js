@@ -142,13 +142,20 @@ const BookAppointment = () => {
                 }}
               />
               <TimePicker
-                format="HH:mm"
+                format="HH"
                 className="m-2 border border-info"
                 onChange={(value) => {
-                  const formattedTime = value ? value.format("HH:mm") : null;
-                  setTime(formattedTime);
+                  // If a value is selected, set minutes to 0
+                  if (value) {
+                    const newValue = value.clone().minute(0);
+                    const formattedTime = newValue.format("HH:mm");
+                    setTime(formattedTime);
+                  } else {
+                    setTime(null);
+                  }
                 }}
               />
+
               <Button
                 className="btn btn-primary m-2"
                 onClick={handleAvailability}
