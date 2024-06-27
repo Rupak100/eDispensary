@@ -39,7 +39,7 @@ const HomePage = () => {
       >
         Our Doctors
       </h1>
-      <Row>
+      <Row justify="space-around">
         {doctors && doctors.map((doctor) => <DoctorList doctor={doctor} />)}
       </Row>
     </Layout>

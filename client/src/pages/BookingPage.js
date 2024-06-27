@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { Button, DatePicker, TimePicker, message } from "antd";
 import moment from "moment";
@@ -15,6 +15,7 @@ const BookAppointment = () => {
   const [time, setTime] = useState(null);
   const [available, setIsAvailable] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleAvailability = async () => {
     const token = localStorage.getItem("token");
@@ -53,6 +54,13 @@ const BookAppointment = () => {
       if (!date || !time) {
         return alert("Date and Time are required");
       }
+      const confirmed = window.confirm(
+        "Are you sure you want to book this appointment?"
+      );
+      if (!confirmed) {
+        return; // If user cancels, do not proceed with booking
+      }
+
       dispatch(showLoading());
       const res = await axios.post(
         "/api/v1/user/book-appointment",
@@ -73,6 +81,7 @@ const BookAppointment = () => {
       dispatch(hideLoading());
       if (res.data.success) {
         message.success(res.data.message);
+        navigate("/appointments");
       } else {
         message.error(res.data.message);
       }

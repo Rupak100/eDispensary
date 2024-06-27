@@ -5,7 +5,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Col, Form, Input, Row, TimePicker, message } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { showLoading, hideLoading } from "../../redux/features/alertSlice";
-import moment from "moment";
+import dayjs from "dayjs";
 
 const Profile = () => {
   const { user } = useSelector((state) => state.user);
@@ -13,20 +13,24 @@ const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const params = useParams();
-  // update doc ==========
-  //handle form
+
+  // Update doctor info
   const handleFinish = async (values) => {
     try {
       dispatch(showLoading());
+
+      // Using dayjs to format timings
+      const formattedTimings = [
+        values.timings[0].format("HH:mm"),
+        values.timings[1].format("HH:mm"),
+      ];
+
       const res = await axios.post(
         "/api/v1/doctor/docInfoChange",
         {
           ...values,
           userId: user._id,
-          timings: [
-            moment(values.timings[0]).format("HH:mm"),
-            moment(values.timings[1]).format("HH:mm"),
-          ],
+          timings: formattedTimings,
         },
         {
           headers: {
@@ -34,7 +38,9 @@ const Profile = () => {
           },
         }
       );
+
       dispatch(hideLoading());
+
       if (res.data.success) {
         message.success(res.data.message);
         navigate("/");
@@ -44,12 +50,11 @@ const Profile = () => {
     } catch (error) {
       dispatch(hideLoading());
       console.log(error);
-      message.error("Somthing Went Wrrong ");
+      message.error("Something went wrong. Please try again.");
     }
   };
-  // update doc ==========
 
-  //getDOc Details
+  // Get doctor details
   const getDoctorInfo = async () => {
     try {
       const res = await axios.post(
@@ -61,6 +66,7 @@ const Profile = () => {
           },
         }
       );
+
       if (res.data.success) {
         setDoctor(res.data.data);
       }
@@ -71,8 +77,9 @@ const Profile = () => {
 
   useEffect(() => {
     getDoctorInfo();
-    //eslint-disable-next-line
+    // eslint-disable-next-line
   }, []);
+
   return (
     <Layout>
       <h1 className="text-center">Manage Profile</h1>
@@ -84,12 +91,12 @@ const Profile = () => {
           initialValues={{
             ...doctor,
             timings: [
-              moment(doctor.timings[0], "HH:mm"),
-              moment(doctor.timings[1], "HH:mm"),
+              dayjs(`1970-01-01T${doctor.timings[0]}:00`),
+              dayjs(`1970-01-01T${doctor.timings[1]}:00`),
             ],
           }}
         >
-          <h4 className="">Personal Details : </h4>
+          <h4 className="">Personal Details :</h4>
           <Row gutter={20}>
             <Col xs={24} md={24} lg={8}>
               <Form.Item
@@ -171,8 +178,8 @@ const Profile = () => {
             </Col>
             <Col xs={24} md={24} lg={8}>
               <Form.Item
-                label="Fees Per Cunsaltation"
-                name="feesPerCunsaltation"
+                label="Fees Per Consultation"
+                name="feesPerConsultation"
                 required
                 rules={[{ required: true }]}
               >
@@ -184,7 +191,6 @@ const Profile = () => {
                 <TimePicker.RangePicker format="HH:mm" />
               </Form.Item>
             </Col>
-            {/* <Col xs={24} md={24} lg={8}></Col> */}
             <Col xs={24} md={24} lg={24} className="text-center mt-3">
               <button className="btn btn-primary form-btn" type="submit">
                 Update

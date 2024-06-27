@@ -1,17 +1,13 @@
 .doctor-card {
-  /* display: flex; */
-  /* flex-direction: row; */
-  /* justify-content: center; */
-  background-color: bisque;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 20px;
-  /* margin-bottom: 30px;  */
-  cursor: pointer;
-  transition: box-shadow 0.3s;
+  background-color: bisque; /* Background color for the card */
+  border: 1px solid #ddd; /* Border around the card */
+  border-radius: 8px; /* Rounded corners for the card */
+  padding: 20px; /* Padding inside the card */
+  cursor: pointer; /* Change cursor to pointer on hover (optional) */
+  transition: box-shadow 0.3s; /* Smooth transition for box-shadow */
   width: calc(33.33% - 20px); /* Set width for each doctor container */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow for a subtle lift effect */
+  margin: 20px; /* Margin around each card to create spacing */
 }
 
 .doctor-card:hover {
