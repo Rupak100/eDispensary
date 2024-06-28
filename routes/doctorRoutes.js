@@ -6,6 +6,7 @@ const {
   getTheDoctor,
   getDocAppointments,
   acceptAppointment,
+  deleteAppointment,
 } = require("../controllers/doctorController");
 const routes = express.Router();
 
@@ -18,5 +19,7 @@ routes.post("/docInfoChange", authMiddlewire, docInfoController);
 //GET DOCTOR
 routes.post("/doctorInfo", authMiddlewire, getTheDoctor);
 routes.get("/doctor-appointments", authMiddlewire, getDocAppointments);
-routes.post("/doctorRequestApprove", authMiddlewire, acceptAppointment);
+routes.post("/update-status", authMiddlewire, acceptAppointment);
+routes.delete("/delete-appointment", authMiddlewire, deleteAppointment);
+
 module.exports = routes;

@@ -5,25 +5,35 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { showLoading, hideLoading } from "../redux/features/alertSlice";
 import axios from "axios";
-import moment from "moment";
 const ApplyDoctor = () => {
   const { user } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  //handle form
+
   const handleFinish = async (values) => {
     try {
       dispatch(showLoading());
+
+      // Using JavaScript Date object to format timings
+      const formatTime = (time) => {
+        const date = new Date(time);
+        const hours = date.getHours().toString().padStart(2, "0");
+        const minutes = date.getMinutes().toString().padStart(2, "0");
+        return `${hours}:${minutes}`;
+      };
+
+      const formattedTimings = [
+        formatTime(values.timings[0]),
+        formatTime(values.timings[1]),
+      ];
+
       const res = await axios.post(
         "/api/v1/user/apply-doctor",
         {
           ...values,
           userId: user._id,
-          timings: [
-            moment(values.timings[0]).format("HH:mm"),
-            moment(values.timings[1]).format("HH:mm"),
-          ],
+          timings: formattedTimings,
         },
         {
           headers: {
@@ -40,10 +50,11 @@ const ApplyDoctor = () => {
       }
     } catch (error) {
       dispatch(hideLoading());
-      console.log(error);
-      message.error("Somthing Went Wrrong ");
+      console.error("Error submitting doctor application:", error);
+      message.error("Something went wrong. Please try again.");
     }
   };
+
   return (
     <Layout>
       <h1 className="text-center">Apply Doctor</h1>
@@ -130,8 +141,8 @@ const ApplyDoctor = () => {
           </Col>
           <Col xs={24} md={24} lg={8}>
             <Form.Item
-              label="Fees Per Cunsaltation"
-              name="feesPerCunsaltation"
+              label="Fees Per Consultation"
+              name="feesperConsultation"
               required
               rules={[{ required: true }]}
             >
@@ -143,8 +154,7 @@ const ApplyDoctor = () => {
               <TimePicker.RangePicker format="HH:mm" />
             </Form.Item>
           </Col>
-          <Col xs={24} md={24} lg={8}></Col>
-          <Col xs={24} md={24} lg={8}>
+          <Col xs={24} md={24} lg={24} className="text-center mt-3">
             <button className="btn btn-primary form-btn" type="submit">
               Submit
             </button>

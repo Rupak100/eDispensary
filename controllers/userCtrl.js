@@ -86,28 +86,35 @@ const applyDoctorController = async (req, res) => {
   try {
     const newDoctor = await doctorModel({ ...req.body, status: "pending" });
     await newDoctor.save();
+
     const adminUser = await userModel.findOne({ isAdmin: true });
+    if (!adminUser) {
+      throw new Error("Admin user not found");
+    }
+
     const notification = adminUser.notification;
     notification.push({
       type: "apply-doctor-request",
       message: `${newDoctor.firstName} ${newDoctor.lastName} has applied for doctor role`,
       data: {
         doctorId: newDoctor._id,
-        name: newDoctor.firstName + " " + newDoctor.lastName,
+        name: `${newDoctor.firstName} ${newDoctor.lastName}`,
         onClickPath: "/admin/doctors",
       },
     });
+
     await userModel.findByIdAndUpdate(adminUser._id, { notification });
+
     res.status(201).send({
       success: true,
-      message: "Doctor applied Application success",
+      message: "Doctor application submitted successfully",
     });
   } catch (error) {
-    console.error(error);
+    console.error("Error applying for doctor role:", error);
     res.status(500).send({
       success: false,
-      error,
-      message: `Error while applying Doctor`,
+      error: error.message || error,
+      message: "Error while applying for doctor role",
     });
   }
 };

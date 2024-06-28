@@ -81,33 +81,87 @@ const acceptAppointment = async (req, res) => {
     const { appointmentId, status } = req.body;
     const appointment = await appointmentModel.findByIdAndUpdate(
       appointmentId,
-      { status }
+      { status },
+      { new: true } // Return the updated appointment
     );
-    const user = await userSchema.findById({ _id: appointment.userId });
-    const notification = user.notification;
+
+    if (!appointment) {
+      return res.status(404).json({
+        success: false,
+        message: "Appointment not found",
+      });
+    }
+
+    const user = await userSchema.findById(appointment.userId);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    const notification = user.notification || [];
     notification.push({
-      type: "Appointment request approved ",
+      type: "Appointment request approved",
       message: `Your appointment request is ${status}`,
       onClickPath: "/appointments",
     });
+
+    user.notification = notification;
     await user.save();
-    res.status(200).send({
+
+    return res.status(200).json({
       success: true,
-      message: `Approved Successfully`,
+      message: "Approved Successfully",
+      appointment: appointment,
     });
   } catch (error) {
-    // console.log(error);
-    res.status(500).send({
+    console.error("Error in accepting handler:", error);
+    return res.status(500).json({
       success: false,
-      error,
+      error: error.message,
       message: "Error in the accepting handler",
     });
   }
 };
+
+const deleteAppointment = async (req, res) => {
+  try {
+    const appointmentId = req.body.appointmentId; // Assuming appointmentId is sent in the request body
+
+    // Delete the appointment
+    const deletedAppointment = await appointmentModel.findOneAndDelete({
+      _id: appointmentId,
+    });
+
+    if (!deletedAppointment) {
+      return res.status(404).json({
+        success: false,
+        message: "Appointment not found",
+      });
+    }
+
+    // Respond with success message
+    return res.status(200).json({
+      success: true,
+      message: "Appointment deleted successfully",
+      deletedAppointment: deletedAppointment, // Optionally send back the deleted appointment
+    });
+  } catch (error) {
+    console.error("Error in deleting appointment:", error);
+    return res.status(500).json({
+      success: false,
+      error: error.message,
+      message: "Error in deleting appointment",
+    });
+  }
+};
+
 module.exports = {
   getDoctorInfoController,
   docInfoController,
   getTheDoctor,
   getDocAppointments,
   acceptAppointment,
+  deleteAppointment,
 };

@@ -1,0 +1,32 @@
+.apply-doctor-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #f7f7f7;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.text-center {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.apply-doctor-form h4 {
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.apply-doctor-form .ant-row {
+  margin-bottom: 1rem;
+}
+
+.form-submit-button {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.form-submit-button .btn {
+  padding: 0.5rem 2rem;
+  font-size: 1rem;
+}
