@@ -55,15 +55,6 @@
   box-shadow: 0 0 2px gray;
   font-family: "Poppins", sans-serif;
 }
-/* 
-/* Remove background-color properties from .header and .body */
-.header {
-  /* background-color: white; */
-}
-
-.body {
-  /* background-color: white; */
-}
 
 .logo h6 {
   font-size: 1.5rem;
