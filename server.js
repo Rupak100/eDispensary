@@ -5,6 +5,7 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const connectionDB = require("./config/db");
 const path = require("path");
+const cors = require("cors");
 
 // rest object
 const app = express();
