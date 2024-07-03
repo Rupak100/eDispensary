@@ -18,15 +18,14 @@ require("dotenv").config();
 //mongodb connection
 connectionDB();
 
-//cors
-// app.use(
-//   cors({
-//     origin: "https://edispensary.netlify.app", // Replace with your Netlify domain
-//     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-//     allowedHeaders: ["Content-Type", "Authorization"],
-//     credentials: true,
-//   })
-// );
+app.use(
+  cors({
+    origin: "*", // Allow requests from all origins
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true, // Enable credentials (cookies, authorization headers)
+  })
+);
 
 //routes
 app.use("/api/v1/user", require("./routes/userRouter"));
