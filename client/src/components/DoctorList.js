@@ -26,7 +26,7 @@ const DoctorList = ({ doctor }) => {
           {doctor.timings[1]}
         </p>
       </div>
-      {/* Book Now button */}
+
       <button className=" auth-button book-now-button btn btn-primary mt-2">
         <Link
           to={`/doctor/book-appointment/${doctor._id}`}
