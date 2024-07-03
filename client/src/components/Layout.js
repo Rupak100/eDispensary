@@ -15,7 +15,8 @@ const Layout = ({ children }) => {
   const handleLogout = () => {
     localStorage.clear();
     message.success("Logout Successfully");
-    navigate("/dashboard"); // navigate to dashboard page after clearing local storage
+
+    navigate("/dashboard");
   };
 
   // Doctor menu

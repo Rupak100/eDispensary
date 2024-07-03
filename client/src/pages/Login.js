@@ -15,15 +15,16 @@ const Login = () => {
 
   // Form handler
   const onFinishHandler = async (values) => {
-    console.log(backendUrl);
+    // console.log(backendUrl);
     try {
       dispatch(showLoading());
       const res = await axios.post(`${backendUrl}/api/v1/user/login`, values);
-      window.location.reload();
       dispatch(hideLoading());
+      window.location.reload();
       if (res.data.success) {
         localStorage.setItem("token", res.data.token);
         message.success("Login Successfully");
+
         navigate("/");
       } else {
         message.error(res.data.message);
