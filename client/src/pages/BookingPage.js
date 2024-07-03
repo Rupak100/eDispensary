@@ -16,13 +16,14 @@ const BookAppointment = () => {
   const [available, setIsAvailable] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
   const handleAvailability = async () => {
     const token = localStorage.getItem("token");
+
     try {
       // dispatch(showLoading());
       const res = await axios.post(
-        "/api/v1/user/check-availability",
+        `${backendUrl}/api/v1/user/check-availability`,
         {
           doctorId: params.doctorId,
           date,
@@ -63,7 +64,7 @@ const BookAppointment = () => {
 
       dispatch(showLoading());
       const res = await axios.post(
-        "/api/v1/user/book-appointment",
+        `${backendUrl}/api/v1/user/book-appointment`,
         {
           doctorId: params.doctorId,
           userId: user._id,
@@ -98,7 +99,7 @@ const BookAppointment = () => {
     const token = localStorage.getItem("token");
     try {
       const res = await axios.post(
-        "/api/v1/doctor/doctorInfo",
+        `${backendUrl}/api/v1/doctor/doctorInfo`,
         { doctorId: params.doctorId },
         {
           headers: {

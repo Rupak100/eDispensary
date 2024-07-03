@@ -11,6 +11,7 @@ const ApplyDoctor = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
   const handleFinish = async (values) => {
     try {
@@ -30,7 +31,7 @@ const ApplyDoctor = () => {
       ];
 
       const res = await axios.post(
-        "/api/v1/user/apply-doctor",
+        `${backendUrl}/api/v1/user/apply-doctor`,
         {
           ...values,
           userId: user._id,

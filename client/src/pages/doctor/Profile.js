@@ -13,7 +13,7 @@ const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const params = useParams();
-
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
   // Update doctor info
   const handleFinish = async (values) => {
     try {
@@ -26,7 +26,7 @@ const Profile = () => {
       ];
 
       const res = await axios.post(
-        "/api/v1/doctor/docInfoChange",
+        `${backendUrl}/api/v1/doctor/docInfoChange`,
         {
           ...values,
           userId: user._id,
@@ -58,7 +58,7 @@ const Profile = () => {
   const getDoctorInfo = async () => {
     try {
       const res = await axios.post(
-        "/api/v1/doctor/getDoctorInfo",
+        `${backendUrl}/api/v1/doctor/getDoctorInfo`,
         { userId: params.id },
         {
           headers: {

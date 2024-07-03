@@ -4,11 +4,12 @@ import axios from "axios";
 import { Table } from "antd";
 const Users = () => {
   const [users, setUsers] = useState([]);
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
   //getUsers
   const getUsers = async () => {
     try {
-      const res = await axios.get("/api/v1/admin/getAllUsers", {
+      const res = await axios.get(`${backendUrl}/api/v1/admin/getAllUsers`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

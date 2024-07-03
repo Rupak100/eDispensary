@@ -11,12 +11,14 @@ const Login = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const userType = location.state?.userType || "patient"; // Default to patient if no userType provided
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
   // Form handler
   const onFinishHandler = async (values) => {
+    console.log(backendUrl);
     try {
       dispatch(showLoading());
-      const res = await axios.post("/api/v1/user/login", values);
+      const res = await axios.post(`${backendUrl}/api/v1/user/login`, values);
       window.location.reload();
       dispatch(hideLoading());
       if (res.data.success) {

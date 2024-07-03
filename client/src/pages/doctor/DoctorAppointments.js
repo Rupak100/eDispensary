@@ -8,14 +8,18 @@ import { message, Table, Popconfirm } from "antd";
 import "../../styles/Appointments.css";
 const DoctorAppointments = () => {
   const [appointments, setAppointments] = useState([]);
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
   const getAppointments = async () => {
     try {
-      const res = await axios.get("/api/v1/doctor/doctor-appointments", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const res = await axios.get(
+        `${backendUrl}/api/v1/doctor/doctor-appointments`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       if (res.data.success) {
         setAppointments(res.data.data);
       }
@@ -31,7 +35,7 @@ const DoctorAppointments = () => {
   const handleStatus = async (record, status) => {
     try {
       const res = await axios.post(
-        "/api/v1/doctor/update-status",
+        `${backendUrl}/api/v1/doctor/update-status`,
         { appointmentId: record._id, status },
         {
           headers: {
@@ -51,12 +55,15 @@ const DoctorAppointments = () => {
 
   const handleDelete = async (record) => {
     try {
-      const res = await axios.delete(`/api/v1/doctor/delete-appointment`, {
-        data: { appointmentId: record._id }, // Pass appointmentId in the request body
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const res = await axios.delete(
+        `${backendUrl}/api/v1/doctor/delete-appointment`,
+        {
+          data: { appointmentId: record._id }, // Pass appointmentId in the request body
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       if (res.data.success) {
         message.success(res.data.message);
         getAppointments();

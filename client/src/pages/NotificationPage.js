@@ -10,12 +10,13 @@ const NotificationPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.user);
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
   const handleMarkAllRead = async () => {
     try {
       dispatch(showLoading());
       const res = await axios.post(
-        "/api/v1/user/all-notification-route",
+        `${backendUrl}/api/v1/user/all-notification-route`,
         { userId: user._id },
         {
           headers: {
@@ -41,7 +42,7 @@ const NotificationPage = () => {
     try {
       dispatch(showLoading());
       const res = await axios.post(
-        "/api/v1/user/delete-notification-route",
+        `${backendUrl}/api/v1/user/delete-notification-route`,
         { userId: user._id },
         {
           headers: {

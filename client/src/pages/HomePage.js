@@ -5,11 +5,12 @@ import { Row } from "antd";
 import DoctorList from "../components/DoctorList";
 const HomePage = () => {
   const [doctors, setDoctors] = useState([]);
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
   // login user data
   const getUserData = async () => {
     try {
       const res = await axios.get(
-        "/api/v1/user/getAllDoctors",
+        `${backendUrl}/api/v1/user/getAllDoctors`,
 
         {
           headers: {

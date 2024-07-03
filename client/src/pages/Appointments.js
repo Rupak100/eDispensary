@@ -11,11 +11,12 @@ import { useNavigate } from "react-router-dom";
 const Appointments = () => {
   const [appointments, setAppointments] = useState([]);
   const navigate = useNavigate();
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
   // Function to fetch appointments from the server
   const getAppointments = async () => {
     try {
-      const res = await axios.get("/api/v1/user/get-appointment", {
+      const res = await axios.get(`${backendUrl}/api/v1/user/get-appointment`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -37,12 +38,15 @@ const Appointments = () => {
   // Function to handle appointment deletion
   const handleDelete = async (record) => {
     try {
-      const res = await axios.delete(`/api/v1/doctor/delete-appointment`, {
-        data: { appointmentId: record._id },
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const res = await axios.delete(
+        `${backendUrl}/api/v1/doctor/delete-appointment`,
+        {
+          data: { appointmentId: record._id },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       if (res.data.success) {
         message.success(res.data.message);
         getAppointments(); // Refresh appointments after deletion

@@ -5,10 +5,12 @@ import { message, Table } from "antd";
 
 const Doctors = () => {
   const [doctors, setDoctors] = useState([]);
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
+
   //getUsers
   const getDoctors = async () => {
     try {
-      const res = await axios.get("/api/v1/admin/getAllDoctors", {
+      const res = await axios.get(`${backendUrl}/api/v1/admin/getAllDoctors`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

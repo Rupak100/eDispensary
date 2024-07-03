@@ -8,13 +8,14 @@ import { setUser } from "../redux/features/userSlice";
 export default function ProtectedRoute({ children }) {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
   //get user
   const getUser = async () => {
     try {
       dispatch(showLoading());
       const res = await axios.post(
-        "/api/v1/user/getUserData",
+        `${backendUrl}/api/v1/user/getUserData`,
         { token: localStorage.getItem("token") },
         {
           headers: {
