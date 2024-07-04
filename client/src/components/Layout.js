@@ -15,7 +15,7 @@ const Layout = ({ children }) => {
   const handleLogout = () => {
     localStorage.clear();
     message.success("Logout Successfully");
-
+    window.location.reload();
     navigate("/dashboard");
   };
 

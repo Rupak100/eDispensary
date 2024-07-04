@@ -20,7 +20,7 @@ const Login = () => {
       dispatch(showLoading());
       const res = await axios.post(`${backendUrl}/api/v1/user/login`, values);
       dispatch(hideLoading());
-      // window.location.reload();
+
       if (res.data.success) {
         localStorage.setItem("token", res.data.token);
         message.success("Login Successfully");
