@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const connectionDB = require("./config/db");
 const path = require("path");
 const cors = require("cors");
+import job from "./cron.js";
 
 // rest object
 const app = express();
@@ -17,6 +18,7 @@ require("dotenv").config();
 
 //mongodb connection
 connectionDB();
+job.start();
 
 app.use(
   cors({
