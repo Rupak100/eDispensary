@@ -19,7 +19,7 @@ require("dotenv").config();
 
 //mongodb connection
 connectionDB();
-job.start();
+
 
 app.use(
   cors({
