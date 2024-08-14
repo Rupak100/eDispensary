@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 const connectionDB = require("./config/db");
 const path = require("path");
 const cors = require("cors");
-require("./cron");
+//require("./cron");
 
 
 // rest object
